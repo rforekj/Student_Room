@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">StudentRoom</string>
+    <string name="name">name</string>
+    <string name="age">age</string>
+    <string name="title_activity_add">AddActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
