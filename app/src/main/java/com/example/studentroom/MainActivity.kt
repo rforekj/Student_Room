@@ -36,7 +36,9 @@ class MainActivity : AppCompatActivity(), OnDataPass {
                 bundle.putString("name", name)
                 bundle.putString("age", age)
                 fragment.arguments = bundle
-                supportFragmentManager.beginTransaction().replace(R.id.frame_layout, fragment).commit()
+                supportFragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.left_to_right,R.anim.right_to_left)
+                    .replace(R.id.frame_layout, fragment).commit()
             }
         })
 
