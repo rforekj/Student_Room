@@ -2,19 +2,24 @@ package com.example.studentroom
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.info_student.*
 import kotlinx.android.synthetic.main.info_student.view.*
 import java.lang.NumberFormatException
 
 class InfoFragment: Fragment(), OnDataPass {
 
     val PICK_IMAGE = 1
+    lateinit var imageString: String
 
     lateinit var dataStudent: OnDataPass
     override fun onDataPass(student: Student) {
@@ -38,10 +43,9 @@ class InfoFragment: Fragment(), OnDataPass {
         view.avatar.setOnClickListener{
             pickImage()
         }
-
-
         view.name_info.setText(arguments?.getString("name"))
         view.age_info.setText(arguments?.getString("age"))
+        activity?.let { Glide.with(it).load(Uri.parse(arguments?.getString("avt"))).into(view.avatar) }
 
         view.edit_button.setOnClickListener{
             try {
@@ -49,7 +53,7 @@ class InfoFragment: Fragment(), OnDataPass {
                 var ageInt = Integer.parseInt(view.age_info.text.toString())
                 if(ageInt<0) throw NumberFormatException()
 
-                val student = Student(view.name_info.text.toString(), view.age_info.text.toString())
+                val student = Student(view.name_info.text.toString(), view.age_info.text.toString(), imageString)
                 dataStudent.onDataPass(student)
                 activity?.supportFragmentManager?.beginTransaction()
                     ?.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit)
@@ -64,7 +68,7 @@ class InfoFragment: Fragment(), OnDataPass {
         }
 
         view.delete_button.setOnClickListener{
-            val student = Student("251099","10")
+            val student = Student("251099","10","")
             dataStudent.onDataPass(student)
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
@@ -83,7 +87,8 @@ class InfoFragment: Fragment(), OnDataPass {
             if(requestCode == PICK_IMAGE){
                 val extras  = data?.data
                 if(extras != null){
-                    view?.avatar?.setImageURI(extras)
+                    imageString = extras.toString()
+                    activity?.let { Glide.with(it).load(extras).into(view!!.avatar) }
                 }
             }
     }

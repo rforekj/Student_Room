@@ -5,4 +5,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "Student_table")
-class Student(@PrimaryKey @ColumnInfo(name = "name") var name: String, @ColumnInfo(name = "age") var age: String)
+class Student(@PrimaryKey @ColumnInfo(name = "name") var name: String,
+              @ColumnInfo(name = "age") var age: String,
+              @ColumnInfo(name = "avt") var avt: String)

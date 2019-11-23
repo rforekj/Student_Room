@@ -31,10 +31,12 @@ class MainActivity : AppCompatActivity(), OnDataPass {
                 var fragment = InfoFragment()
                 var name = studentViewModel.allStudent.value!![position].name
                 var age = studentViewModel.allStudent.value!![position].age
+                var avt = studentViewModel.allStudent.value!![position].avt
                 name_key = name
                 var bundle = Bundle()
                 bundle.putString("name", name)
                 bundle.putString("age", age)
+                bundle.putString("avt", avt)
                 fragment.arguments = bundle
                 supportFragmentManager.beginTransaction()
                     .setCustomAnimations(R.anim.left_to_right,R.anim.right_to_left)
@@ -42,18 +44,15 @@ class MainActivity : AppCompatActivity(), OnDataPass {
             }
         })
 
-
         studentViewModel = ViewModelProvider(this).get(StudentViewModel::class.java)
         studentViewModel.allStudent.observe(this, Observer {
             students -> students?.let {adapter.setStudent(students)}
         })
-
         val addButton = addbutton
         addButton.setOnClickListener {
             val intent = Intent(this, AddActivity::class.java)
             startActivityForResult(intent, newStudentcode)
         }
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -63,8 +62,8 @@ class MainActivity : AppCompatActivity(), OnDataPass {
             val bundle = data?.getExtras()
             if(bundle!=null){
                 val newStudent = Student(bundle.getString("name",""),
-                                         bundle.getString("age",""))
-                Log.i("truoc",bundle.getString("name",""))
+                                         bundle.getString("age",""),
+                                         bundle.getString("avt",""))
                 studentViewModel.insert(newStudent)
             }
         }
@@ -91,6 +90,7 @@ class MainActivity : AppCompatActivity(), OnDataPass {
 
     override fun onDataPass(student: Student) {
         if(student.name == "251099") studentViewModel.delete(name_key)
-        else studentViewModel.update(student.name,student.age,name_key)
+        else studentViewModel.update(student.name,student.age,student.avt, name_key)
     }
+
 }

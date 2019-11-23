@@ -12,7 +12,7 @@ class StudentRepository(private val studentDao: StudentDao){
         studentDao.delete(name)
     }
 
-    suspend fun update(name: String, age: String,name_before: String){
-        studentDao.update(name, age,name_before)
+    suspend fun update(name: String, age: String, avt: String, name_before: String){
+        studentDao.update(name, age, avt, name_before)
     }
 }

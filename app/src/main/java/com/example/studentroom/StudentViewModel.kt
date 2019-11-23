@@ -24,7 +24,7 @@ class StudentViewModel(application: Application): AndroidViewModel(application) 
         repository.delete(name)
     }
 
-    fun update(name: String, age: String,name_before: String) = viewModelScope.launch{
-        repository.update(name, age,name_before)
+    fun update(name: String, age: String, avt: String, name_before: String) = viewModelScope.launch{
+        repository.update(name, age, avt, name_before)
     }
 }

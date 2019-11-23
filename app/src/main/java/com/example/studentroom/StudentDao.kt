@@ -17,6 +17,6 @@ interface StudentDao {
     @Query("delete from Student_table")
     suspend fun deleteAll()
 
-    @Query("update Student_table set name = :name, age = :age where name = :name_before")
-    suspend fun update(name: String, age: String,name_before: String)
+    @Query("update Student_table set name = :name, age = :age, avt = :avt where name = :name_before")
+    suspend fun update(name: String, age: String,avt: String, name_before: String)
 }

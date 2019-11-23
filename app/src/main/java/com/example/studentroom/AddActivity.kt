@@ -26,6 +26,7 @@ class AddActivity : AppCompatActivity() {
 
                 bundle.putString("name", addname.text.toString())
                 bundle.putString("age", addage.text.toString())
+                bundle.putString("avt","")
                 intent.putExtras(bundle)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
