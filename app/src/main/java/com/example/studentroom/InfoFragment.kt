@@ -2,19 +2,15 @@ package com.example.studentroom
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.card_view.*
 import kotlinx.android.synthetic.main.info_student.view.*
+import java.lang.NumberFormatException
 
 class InfoFragment: Fragment(), OnDataPass {
 
@@ -48,11 +44,23 @@ class InfoFragment: Fragment(), OnDataPass {
         view.age_info.setText(arguments?.getString("age"))
 
         view.edit_button.setOnClickListener{
-            val student = Student(view.name_info.text.toString(),view.age_info.text.toString())
-            dataStudent.onDataPass(student)
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.setCustomAnimations(R.anim.fragment_open_enter,R.anim.fragment_open_exit)
-                ?.remove(this)?.commit()
+            try {
+                if(view.name_info.text.toString()==""||view.age_info.text.toString()=="") throw Exception()
+                var ageInt = Integer.parseInt(view.age_info.text.toString())
+                if(ageInt<0) throw NumberFormatException()
+
+                val student = Student(view.name_info.text.toString(), view.age_info.text.toString())
+                dataStudent.onDataPass(student)
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.setCustomAnimations(R.anim.fragment_open_enter, R.anim.fragment_open_exit)
+                    ?.remove(this)?.commit()
+            } catch (e:NumberFormatException) {
+                Toast.makeText(activity,
+                    "age must be number and greater than 0", Toast.LENGTH_SHORT).show()
+            } catch (e:java.lang.Exception) {
+                Toast.makeText(activity,
+                    "name and age can not be null", Toast.LENGTH_SHORT).show()
+            }
         }
 
         view.delete_button.setOnClickListener{
